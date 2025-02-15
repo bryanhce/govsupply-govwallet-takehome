@@ -91,11 +91,13 @@ describe("Redemption Functions", () => {
 
       redemptions = addRedemption("TEAM_C", staffPassId, redemptions);
 
-      expect(redemptions).toContainEqual({
-        teamName: "TEAM_C",
-        redeemedAt: 1700000000000,
-        redeemedBy: staffPassId,
-      });
+      expect(redemptions).toEqual([
+        {
+          teamName: "TEAM_C",
+          redeemedAt: expect.any(Number),
+          redeemedBy: staffPassId,
+        },
+      ]);
     });
 
     it("should correctly append a new redemption in memory when file is not empty", () => {
@@ -105,17 +107,24 @@ describe("Redemption Functions", () => {
       redemptions = addRedemption("TEAM_B", staffPassId, redemptions);
 
       expect(redemptions).toHaveLength(2);
-      expect(redemptions).toContainEqual({
-        teamName: "TEAM_B",
-        redeemedAt: 1700000000000,
-        redeemedBy: staffPassId,
-      });
+      expect(redemptions).toEqual([
+        {
+          teamName: "TEAM_A",
+          redeemedAt: 1623772799000,
+          redeemedBy: "STAFF_123",
+        },
+        {
+          teamName: "TEAM_B",
+          redeemedAt: expect.any(Number),
+          redeemedBy: staffPassId,
+        },
+      ]);
     });
   });
 
   describe("addRedemptionToFile", () => {
     it("should create a new redemption file if it does not exist", () => {
-      mockFs({ "data/redemption.json": "" }); // Empty file
+      mockFs({ "data/redemption.json": "" });
 
       const newRedemption: Redemption = {
         teamName: "TEAM_X",
@@ -126,7 +135,7 @@ describe("Redemption Functions", () => {
       addRedemptionToFile(newRedemption);
 
       const fileContent = JSON.parse(
-        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8"),
+        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8")
       );
       expect(fileContent).toEqual([newRedemption]);
     });
@@ -141,7 +150,7 @@ describe("Redemption Functions", () => {
       addRedemptionToFile(newRedemption);
 
       const fileContent = JSON.parse(
-        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8"),
+        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8")
       );
       expect(fileContent).toHaveLength(2);
       expect(fileContent).toContainEqual(newRedemption);
