@@ -14,10 +14,18 @@ const handleExitProgram = () => {
 };
 
 const handleRedemption = (
-  staffPassId: StaffPassId,
+  userInput: string,
   staffMappings: StaffMapping[],
   redemptions: Redemption[]
 ): Redemption[] => {
+  const staffPassId: StaffPassId | null = parseStaffPassId(userInput);
+  if (!staffPassId) {
+    console.log(
+      "❌ Invalid staff pass ID cannot be empty! Please enter a valid ID."
+    );
+    return redemptions;
+  }
+
   console.log(`🔍 Checking staff pass ID: ${staffPassId}`);
 
   const teamName = lookupStaffPass(staffPassId, staffMappings);
@@ -47,22 +55,28 @@ const handleRedemption = (
 
 const runRedemptionCounter = async () => {
   console.log("⚙️ Starting Christmas Redemption Counter...");
-  const staffMappings: StaffMapping[] = await loadStaffMapping();
-  let redemptions: Redemption[] = loadRedemptionData();
+  try {
+    const staffMappings: StaffMapping[] = await loadStaffMapping();
+    let redemptions: Redemption[] = loadRedemptionData();
 
-  while (true) {
-    console.log("\n🎄 Welcome to the Redemption Counter!");
+    while (true) {
+      console.log("\n🎄 Welcome to the Redemption Counter!");
 
-    const userInput = readlineSync.question(
-      "👨‍💻 Please enter your Staff Pass ID (or type 'exit' to quit): "
-    );
+      const userInput = readlineSync.question(
+        "👨‍💻 Please enter your Staff Pass ID (or type 'exit' to quit): "
+      );
 
-    if (userInput.toLowerCase().trim() === "exit") {
-      handleExitProgram();
+      if (userInput.toLowerCase().trim() === "exit") {
+        handleExitProgram();
+      }
+      redemptions = handleRedemption(userInput, staffMappings, redemptions);
     }
-
-    const staffPassId: StaffPassId = parseStaffPassId(userInput);
-    redemptions = handleRedemption(staffPassId, staffMappings, redemptions);
+  } catch (error: unknown) {
+    console.error(
+      "❌ An unexpected error occurred:",
+      error instanceof Error ? error.message : "Unknown error"
+    );
+    console.log("🎅 Exiting the Redemption Counter due to an error.");
   }
 };
 

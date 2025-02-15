@@ -1,12 +1,21 @@
 import path from "path";
 import { StaffMapping, StaffPassId } from "./types";
-import { parseCSV } from "./utils/csv-parser";
+import { readCSV } from "./utils/csv-utils";
 
 const csvFileName = "staff-id-to-team-mapping.csv";
 const STAFF_CSV_PATH = path.join(process.cwd(), "data", csvFileName);
 
 const loadStaffMapping = async (): Promise<StaffMapping[]> => {
-  return await parseCSV(STAFF_CSV_PATH);
+  const rawData = await readCSV(STAFF_CSV_PATH);
+
+  // Assume no missing fields in csv
+  return rawData.map((row) => ({
+    // We trust the CSV as the source of truth for staff_pass_id,
+    // so it's safe to assert it as StaffPassId
+    staffPassId: row.staff_pass_id as StaffPassId,
+    teamName: row.team_name,
+    createdAt: Number(row.created_at),
+  }));
 };
 
 const lookupStaffPass = (

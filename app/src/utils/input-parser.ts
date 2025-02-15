@@ -1,12 +1,12 @@
 import { StaffPassId } from "../types";
 
-const parseStaffPassId = (id: string): StaffPassId => {
+export const parseStaffPassId = (id: string): StaffPassId | null => {
   const trimmedId = id.trim();
   if (!trimmedId) {
-    throw new Error("Staff pass ID cannot be empty");
+    return null;
   }
 
+  // Trim the input and check for emptiness,
+  // so it's safe to assert this as StaffPassId
   return trimmedId as StaffPassId;
 };
-
-export { parseStaffPassId };
