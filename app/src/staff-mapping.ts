@@ -20,7 +20,7 @@ const loadStaffMapping = async (): Promise<StaffMapping[]> => {
 
 const lookupStaffPass = (
   staffPassId: StaffPassId,
-  mapping: StaffMapping[]
+  mapping: StaffMapping[],
 ): string | null => {
   const staff = mapping.find((record) => record.staffPassId === staffPassId);
   return staff ? staff.teamName : null;

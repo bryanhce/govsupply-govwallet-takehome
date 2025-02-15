@@ -126,7 +126,7 @@ describe("Redemption Functions", () => {
       addRedemptionToFile(newRedemption);
 
       const fileContent = JSON.parse(
-        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8")
+        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8"),
       );
       expect(fileContent).toEqual([newRedemption]);
     });
@@ -141,7 +141,7 @@ describe("Redemption Functions", () => {
       addRedemptionToFile(newRedemption);
 
       const fileContent = JSON.parse(
-        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8")
+        fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8"),
       );
       expect(fileContent).toHaveLength(2);
       expect(fileContent).toContainEqual(newRedemption);

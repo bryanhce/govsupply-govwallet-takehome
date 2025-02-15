@@ -8,14 +8,21 @@ const parseUserInput = (input: string): string | null => {
   return trimmedInput;
 };
 
-const getUserInput = async (): Promise<string> => {
-  const response = await prompts({
-    type: "text",
-    name: "userInput",
-    message: "🔑 Enter your Staff Pass ID (or type 'exit' to quit):",
-  });
+const getUserInput = async (): Promise<string | null> => {
+  const response = await prompts(
+    {
+      type: "text",
+      name: "userInput",
+      message: "🔑 Enter your Staff Pass ID (or type 'exit' to quit):",
+    },
+    {
+      onCancel: () => {
+        process.exit(0);
+      },
+    },
+  );
 
-  return response.userInput;
+  return parseUserInput(response.userInput);
 };
 
 export { parseUserInput, getUserInput };

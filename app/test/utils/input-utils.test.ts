@@ -13,7 +13,7 @@ describe("parseUserInput", () => {
 
   it("should return same input if no whitespace to trim", () => {
     expect(parseUserInput("no-leading-trailing-whitespace")).toBe(
-      "no-leading-trailing-whitespace"
+      "no-leading-trailing-whitespace",
     );
   });
 });

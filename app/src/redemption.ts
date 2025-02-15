@@ -7,7 +7,7 @@ const redemptionFileName = "redemption.json";
 const REDEMPTION_JSON_PATH = path.join(
   process.cwd(),
   "data",
-  redemptionFileName
+  redemptionFileName,
 );
 
 const loadRedemptionData = (): Redemption[] => {
@@ -24,7 +24,7 @@ const addRedemptionToFile = (newRedemption: Redemption): void => {
   if (!existingData || existingData === "[]") {
     fs.writeFileSync(
       REDEMPTION_JSON_PATH,
-      JSON.stringify([newRedemption], null, 2)
+      JSON.stringify([newRedemption], null, 2),
     );
   } else {
     fs.writeFileSync(
@@ -32,15 +32,15 @@ const addRedemptionToFile = (newRedemption: Redemption): void => {
       // Remove the closing bracket, add new object, then close the array
       existingData.replace(
         /\]$/,
-        `,\n  ${JSON.stringify(newRedemption, null, 2)}\n]`
-      )
+        `,\n  ${JSON.stringify(newRedemption, null, 2)}\n]`,
+      ),
     );
   }
 };
 
 const isEligibleForRedemption = (
   teamName: string,
-  redemptions: Redemption[]
+  redemptions: Redemption[],
 ): boolean => {
   return !redemptions.some((redemption) => redemption.teamName === teamName);
 };
@@ -48,7 +48,7 @@ const isEligibleForRedemption = (
 const addRedemption = (
   teamName: string,
   staffPassId: StaffPassId,
-  redemptions: Redemption[]
+  redemptions: Redemption[],
 ): Redemption[] => {
   const newRedemption: Redemption = {
     teamName,

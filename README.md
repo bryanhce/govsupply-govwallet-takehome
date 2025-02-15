@@ -10,3 +10,4 @@
 # Things to note
 
 1. App CLI might freeze when running in IDE terminal, best to use native terminal.
+2. If you run `npm run dev`, the text "🔑 Enter your Staff Pass ID (or type 'exit' to quit):" will appear twice in dev mode. To only have it show once, run `npm run start` instead.

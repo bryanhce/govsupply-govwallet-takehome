@@ -1,5 +1,4 @@
-import readlineSync from "readline-sync";
-import { parseUserInput, getUserInput } from "./utils/input-utils";
+import { getUserInput } from "./utils/input-utils";
 import { StaffMapping, Redemption, StaffPassId } from "./types";
 import {
   addRedemption,
@@ -16,7 +15,7 @@ const handleExitProgram = () => {
 const handleRedemption = (
   userInput: string,
   staffMappings: StaffMapping[],
-  redemptions: Redemption[]
+  redemptions: Redemption[],
 ): Redemption[] => {
   // Trim the input and check for emptiness beforehand,
   // so it's safe to assert this as StaffPassId
@@ -31,7 +30,7 @@ const handleRedemption = (
   }
 
   console.log(
-    `✅ Verified! You will be collecting on behalf of Team ${teamName}`
+    `✅ Verified! You will be collecting on behalf of Team ${teamName}`,
   );
 
   console.log("🔍 Checking if your team is eligible for redemption...");
@@ -39,11 +38,11 @@ const handleRedemption = (
   if (isEligibleForRedemption(teamName, redemptions)) {
     redemptions = addRedemption(teamName, staffPassId, redemptions);
     console.log(
-      `🎉 All is good! Your team ${teamName} can redeem your gifts! Merry Christmas!`
+      `🎉 All is good! Your team ${teamName} can redeem your gifts! Merry Christmas!`,
     );
   } else {
     console.log(
-      `❌ Oops, your team ${teamName} has already redeemed their gifts. Goodbye!`
+      `❌ Oops, your team ${teamName} has already redeemed their gifts. Goodbye!`,
     );
   }
   return redemptions;
@@ -55,15 +54,16 @@ const runRedemptionCounter = async () => {
     const staffMappings: StaffMapping[] = await loadStaffMapping();
     let redemptions: Redemption[] = loadRedemptionData();
 
+    // eslint-disable no-constant-condition
     while (true) {
+      // eslinet-enable no-constant-condition
       console.log("\n🎄 Welcome to the Redemption Counter!");
 
-      const rawUserInput = await getUserInput();
-      const userInput = parseUserInput(rawUserInput);
+      const userInput = await getUserInput();
 
       if (!userInput) {
         console.log(
-          "❌ Staff Pass ID cannot be empty! Please enter a valid ID."
+          "❌ Staff Pass ID cannot be empty! Please enter a valid ID.",
         );
         continue;
       }
@@ -77,7 +77,7 @@ const runRedemptionCounter = async () => {
   } catch (error: unknown) {
     console.error(
       "❌ An unexpected error occurred:",
-      error instanceof Error ? error.message : "Unknown error"
+      error instanceof Error ? error.message : "Unknown error",
     );
     console.log("🎅 Exiting the Redemption Counter due to an error.");
     process.exit(1);
