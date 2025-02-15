@@ -5,3 +5,7 @@
 3. Compile the TypeScript code by running `npm run build`
 4. Start app in development mode by running `npm run dev`
 5. Start app in production mode by running `npm run start`
+
+# Things to note
+
+1. App CLI might freeze when running in IDE terminal, best to use native terminal.

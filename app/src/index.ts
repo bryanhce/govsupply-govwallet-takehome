@@ -1,5 +1,5 @@
 import readlineSync from "readline-sync";
-import { parseStaffPassId } from "./utils/input-parser";
+import { parseUserInput, getUserInput } from "./utils/input-utils";
 import { StaffMapping, Redemption, StaffPassId } from "./types";
 import {
   addRedemption,
@@ -10,7 +10,7 @@ import { loadStaffMapping, lookupStaffPass } from "./staff-mapping";
 
 const handleExitProgram = () => {
   console.log("🎅 Exiting the Redemption Counter. Happy Holidays!");
-  process.exit();
+  process.exit(0);
 };
 
 const handleRedemption = (
@@ -18,13 +18,9 @@ const handleRedemption = (
   staffMappings: StaffMapping[],
   redemptions: Redemption[]
 ): Redemption[] => {
-  const staffPassId: StaffPassId | null = parseStaffPassId(userInput);
-  if (!staffPassId) {
-    console.log(
-      "❌ Invalid staff pass ID cannot be empty! Please enter a valid ID."
-    );
-    return redemptions;
-  }
+  // Trim the input and check for emptiness beforehand,
+  // so it's safe to assert this as StaffPassId
+  const staffPassId: StaffPassId = userInput as StaffPassId;
 
   console.log(`🔍 Checking staff pass ID: ${staffPassId}`);
 
@@ -47,7 +43,7 @@ const handleRedemption = (
     );
   } else {
     console.log(
-      `❌ Oops, your ream ${teamName} has already redeemed their gifts. Goodbye!`
+      `❌ Oops, your team ${teamName} has already redeemed their gifts. Goodbye!`
     );
   }
   return redemptions;
@@ -62,13 +58,20 @@ const runRedemptionCounter = async () => {
     while (true) {
       console.log("\n🎄 Welcome to the Redemption Counter!");
 
-      const userInput = readlineSync.question(
-        "👨‍💻 Please enter your Staff Pass ID (or type 'exit' to quit): "
-      );
+      const rawUserInput = await getUserInput();
+      const userInput = parseUserInput(rawUserInput);
 
-      if (userInput.toLowerCase().trim() === "exit") {
+      if (!userInput) {
+        console.log(
+          "❌ Staff Pass ID cannot be empty! Please enter a valid ID."
+        );
+        continue;
+      }
+
+      if (userInput.toLowerCase() === "exit") {
         handleExitProgram();
       }
+
       redemptions = handleRedemption(userInput, staffMappings, redemptions);
     }
   } catch (error: unknown) {
@@ -77,8 +80,8 @@ const runRedemptionCounter = async () => {
       error instanceof Error ? error.message : "Unknown error"
     );
     console.log("🎅 Exiting the Redemption Counter due to an error.");
+    process.exit(1);
   }
 };
 
 runRedemptionCounter();
-// "STAFF_H123804820G"

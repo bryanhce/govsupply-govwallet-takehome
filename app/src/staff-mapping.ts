@@ -2,7 +2,7 @@ import path from "path";
 import { StaffMapping, StaffPassId } from "./types";
 import { readCSV } from "./utils/csv-utils";
 
-const csvFileName = "staff-id-to-team-mapping.csv";
+const csvFileName = "staff-id-to-team-mapping-long.csv";
 const STAFF_CSV_PATH = path.join(process.cwd(), "data", csvFileName);
 
 const loadStaffMapping = async (): Promise<StaffMapping[]> => {
