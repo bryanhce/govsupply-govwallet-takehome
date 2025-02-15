@@ -12,6 +12,9 @@ const REDEMPTION_JSON_PATH = path.join(
 
 const loadRedemptionData = (): Redemption[] => {
   const data = fs.readFileSync(REDEMPTION_JSON_PATH, "utf-8");
+  if (!data) {
+    return [];
+  }
   return JSON.parse(data) as Redemption[];
 };
 
@@ -57,4 +60,9 @@ const addRedemption = (
   return redemptions;
 };
 
-export { addRedemption, isEligibleForRedemption, loadRedemptionData };
+export {
+  addRedemption,
+  isEligibleForRedemption,
+  loadRedemptionData,
+  addRedemptionToFile,
+};
