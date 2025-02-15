@@ -9,15 +9,15 @@ export const parseCSV = (filePath: string): Promise<StaffMapping[]> => {
     fs.createReadStream(filePath)
       .pipe(
         csv({
-          // remove extra whitespace or hidden characters in CSV header
+          // Remove extra whitespace or hidden characters in CSV header
           mapHeaders: ({ header }) => header.trim(),
         })
       )
       .on("data", (data) => {
         results.push({
-          staff_pass_id: data.staff_pass_id,
-          team_name: data.team_name,
-          created_at: Number(data.created_at),
+          staffPassId: data.staff_pass_id,
+          teamName: data.team_name,
+          createdAt: Number(data.created_at),
         });
       })
       .on("end", () => {

@@ -1,4 +1,6 @@
+import { StaffPassId } from "./staff-mapping";
 export interface Redemption {
-  team_name: string;
-  redeemed_at: number;
+  teamName: string;
+  redeemedAt: number;
+  redeemedBy: StaffPassId;
 }

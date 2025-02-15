@@ -1,5 +1,9 @@
-export interface StaffMapping {
-  staff_pass_id: string;
-  team_name: string;
-  created_at: number;
+type StaffPassId = string;
+
+interface StaffMapping {
+  staffPassId: StaffPassId;
+  teamName: string;
+  createdAt: number;
 }
+
+export { StaffPassId, StaffMapping };

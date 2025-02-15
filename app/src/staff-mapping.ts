@@ -1,5 +1,5 @@
 import path from "path";
-import { StaffMapping } from "./types";
+import { StaffMapping, StaffPassId } from "./types";
 import { parseCSV } from "./utils/csv-parser";
 
 const csvFileName = "staff-id-to-team-mapping.csv";
@@ -10,13 +10,11 @@ const loadStaffMapping = async (): Promise<StaffMapping[]> => {
 };
 
 const lookupStaffPass = (
-  staffPassId: string,
+  staffPassId: StaffPassId,
   mapping: StaffMapping[]
 ): string | null => {
-  const staff = mapping.find((record) => record.staff_pass_id === staffPassId);
-  return staff ? staff.team_name : null;
+  const staff = mapping.find((record) => record.staffPassId === staffPassId);
+  return staff ? staff.teamName : null;
 };
 
-// TODO check the export style, is this ok
-export { lookupStaffPass };
-export { loadStaffMapping };
+export { lookupStaffPass, loadStaffMapping };

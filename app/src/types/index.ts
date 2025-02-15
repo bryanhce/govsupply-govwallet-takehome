@@ -1,2 +1,2 @@
 export { Redemption } from "./redemption";
-export { StaffMapping } from "./staff-mapping";
+export { StaffMapping, StaffPassId } from "./staff-mapping";

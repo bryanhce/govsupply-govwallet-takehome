@@ -1,12 +1,13 @@
 import path from "path";
 import fs from "fs";
-import { Redemption } from "./types";
+import { Redemption, StaffPassId } from "./types";
 import { getCurrentEpoch } from "./utils/date-utils";
 
+const redemptionFileName = "redemption.json";
 const REDEMPTION_JSON_PATH = path.join(
   process.cwd(),
   "data",
-  "redemption.json"
+  redemptionFileName
 );
 
 const loadRedemptionData = (): Redemption[] => {
@@ -38,23 +39,22 @@ const isEligibleForRedemption = (
   teamName: string,
   redemptions: Redemption[]
 ): boolean => {
-  return !redemptions.some((redemption) => redemption.team_name === teamName);
+  return !redemptions.some((redemption) => redemption.teamName === teamName);
 };
 
 const addRedemption = (
   teamName: string,
+  staffPassId: StaffPassId,
   redemptions: Redemption[]
 ): Redemption[] => {
   const newRedemption: Redemption = {
-    team_name: teamName,
-    redeemed_at: getCurrentEpoch(),
-    // TODO add a redeemed by
+    teamName,
+    redeemedAt: getCurrentEpoch(),
+    redeemedBy: staffPassId,
   };
   redemptions.push(newRedemption);
   addRedemptionToFile(newRedemption);
   return redemptions;
 };
 
-export { addRedemption };
-export { isEligibleForRedemption };
-export { loadRedemptionData };
+export { addRedemption, isEligibleForRedemption, loadRedemptionData };

@@ -1,6 +1,6 @@
 import readlineSync from "readline-sync";
 import { parseStaffPassId } from "./utils/input-parser";
-import { StaffMapping, Redemption } from "./types";
+import { StaffMapping, Redemption, StaffPassId } from "./types";
 import {
   addRedemption,
   isEligibleForRedemption,
@@ -14,7 +14,7 @@ const handleExitProgram = () => {
 };
 
 const handleRedemption = (
-  staffPassId: string,
+  staffPassId: StaffPassId,
   staffMappings: StaffMapping[],
   redemptions: Redemption[]
 ): Redemption[] => {
@@ -33,7 +33,7 @@ const handleRedemption = (
   console.log("🔍 Checking if your team is eligible for redemption...");
 
   if (isEligibleForRedemption(teamName, redemptions)) {
-    redemptions = addRedemption(teamName, redemptions);
+    redemptions = addRedemption(teamName, staffPassId, redemptions);
     console.log(
       `🎉 All is good! Your team ${teamName} can redeem your gifts! Merry Christmas!`
     );
@@ -53,15 +53,15 @@ const runRedemptionCounter = async () => {
   while (true) {
     console.log("\n🎄 Welcome to the Redemption Counter!");
 
-    const staffPassId = parseStaffPassId(
-      readlineSync.question(
-        "👨‍💻 Please enter your Staff Pass ID (or type 'exit' to quit): "
-      )
+    const userInput = readlineSync.question(
+      "👨‍💻 Please enter your Staff Pass ID (or type 'exit' to quit): "
     );
 
-    if (staffPassId.toLowerCase() === "exit") {
+    if (userInput.toLowerCase().trim() === "exit") {
       handleExitProgram();
     }
+
+    const staffPassId: StaffPassId = parseStaffPassId(userInput);
     redemptions = handleRedemption(staffPassId, staffMappings, redemptions);
   }
 };
