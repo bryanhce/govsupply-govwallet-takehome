@@ -36,16 +36,16 @@ describe("getUserInput", () => {
     expect(result).toBe("STAFF_123");
   });
 
-  it("should handle empty input and return an empty string", async () => {
+  it("should handle empty input and return null", async () => {
     mockedPrompts.mockResolvedValue({ userInput: "" });
 
     const result = await getUserInput();
-    expect(result).toBe("");
+    expect(result).toBeNull();
   });
 
-  it("should handle user canceling input (returning undefined)", async () => {
+  it("should handle user canceling input and return null", async () => {
     mockedPrompts.mockResolvedValue({});
     const result = await getUserInput();
-    expect(result).toBeUndefined();
+    expect(result).toBeNull();
   });
 });

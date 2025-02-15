@@ -48,15 +48,20 @@ const handleRedemption = (
   return redemptions;
 };
 
+let isRunning = true;
+
+// HACK to escape while true loop in test cases
+const stopRedemptionCounter = () => {
+  isRunning = false;
+};
+
 const runRedemptionCounter = async () => {
   console.log("⚙️ Starting Christmas Redemption Counter...");
   try {
     const staffMappings: StaffMapping[] = await loadStaffMapping();
     let redemptions: Redemption[] = loadRedemptionData();
 
-    // eslint-disable no-constant-condition
-    while (true) {
-      // eslinet-enable no-constant-condition
+    while (isRunning) {
       console.log("\n🎄 Welcome to the Redemption Counter!");
 
       const userInput = await getUserInput();
@@ -85,3 +90,10 @@ const runRedemptionCounter = async () => {
 };
 
 runRedemptionCounter();
+
+export {
+  handleExitProgram,
+  runRedemptionCounter,
+  handleRedemption,
+  stopRedemptionCounter,
+};

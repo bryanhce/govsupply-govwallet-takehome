@@ -1,7 +1,7 @@
 import prompts from "prompts";
 
-const parseUserInput = (input: string): string | null => {
-  const trimmedInput = input.trim();
+const parseUserInput = (input: string | undefined): string | null => {
+  const trimmedInput = input?.trim();
   if (!trimmedInput) {
     return null;
   }

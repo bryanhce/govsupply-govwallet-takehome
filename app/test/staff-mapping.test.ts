@@ -3,6 +3,7 @@ import { readCSV } from "../src/utils/csv-utils";
 import { StaffMapping, StaffPassId } from "../src/types";
 
 jest.mock("../src/utils/csv-utils", () => ({
+  __esModule: true, // Ensure ES module compatibilityw
   readCSV: jest.fn(),
 }));
 
